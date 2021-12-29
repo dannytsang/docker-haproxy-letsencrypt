@@ -1,3 +1,6 @@
+# DEPRECATED #
+I have moved to [SWAG](https://github.com/linuxserver/docker-swag)
+
 # README #
 
 Docker compose file for haproxy backed by lets encrypt certificates. The services talk to each other to share certificates.
