@@ -1,0 +1,38 @@
+version: '3.6'
+services:
+    haproxy:
+        container_name: lb
+        image: 'tomdess/haproxy-certbot:latest'
+        env_file:
+            - $HOME/config/haproxy/environment.txt
+        volumes:
+            - ssl_vol:/etc/letsencrypt
+            - haproxy_vol:/etc/haproxy
+        networks:
+            - lbnet
+        ports:
+            - '80:80'
+            - '443:443'
+        restart: unless-stopped
+    nginx:
+        container_name: www
+        networks:
+            - lbnet
+        image: nginx
+
+networks:
+  lbnet:
+
+volumes:
+  haproxy_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $HOME/config/haproxy/haproxy
+      o: bind
+  ssl_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $HOME/config/haproxy/ssl
+      o: bind
